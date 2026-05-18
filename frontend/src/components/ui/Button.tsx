@@ -8,10 +8,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-slate-950 text-white hover:bg-slate-800 disabled:bg-slate-300",
+  primary: "bg-black text-white hover:bg-neutral-800 disabled:bg-neutral-300",
   secondary:
-    "border border-slate-300 bg-white text-slate-800 hover:bg-slate-100 disabled:text-slate-400",
-  danger: "bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300",
+    "border border-neutral-300 bg-white text-black hover:border-black hover:bg-neutral-50 disabled:text-neutral-400",
+  danger:
+    "border border-black bg-white text-black hover:border-2 hover:bg-neutral-50 disabled:border-neutral-300 disabled:text-neutral-400",
 };
 
 export function Button({
@@ -22,7 +23,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium transition ${variants[variant]} ${className}`}
+      className={`inline-flex h-11 items-center justify-center rounded-md px-5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:cursor-not-allowed ${variants[variant]} ${className}`}
       {...props}
     >
       {children}

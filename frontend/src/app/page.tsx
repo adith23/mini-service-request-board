@@ -42,7 +42,11 @@ export default function HomePage() {
         }
       } catch (loadError) {
         if (!ignore) {
-          setError(loadError instanceof Error ? loadError.message : "Could not load jobs.");
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Could not load jobs.",
+          );
         }
       } finally {
         if (!ignore) {
@@ -59,21 +63,27 @@ export default function HomePage() {
   }, [category, debouncedSearch]);
 
   return (
-    <section className="grid gap-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section className="grid gap-8">
+      <div className="flex flex-col gap-5 border-b border-neutral-200 pb-7 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-950">Open service requests</h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <h1 className="text-2xl font-black tracking-tight text-black sm:text-2xl">
+            Open service requests
+          </h1>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-white">
             Browse homeowner requests and manage their workflow status.
           </p>
         </div>
-        <div className="grid w-full gap-3 sm:w-[32rem] sm:grid-cols-[1fr_16rem]">
+        <div className="grid w-full gap-4 rounded-lg border border-neutral-200 bg-neutral-50 p-4 sm:w-[34rem] sm:grid-cols-[1fr_15rem]">
           <KeywordSearch value={search} onChange={setSearch} />
           <CategoryFilter value={category} onChange={setCategory} />
         </div>
       </div>
       {error ? <ErrorMessage message={error} /> : null}
-      {isLoading ? <LoadingSpinner label="Loading jobs" /> : <JobList jobs={jobs} />}
+      {isLoading ? (
+        <LoadingSpinner label="Loading jobs" />
+      ) : (
+        <JobList jobs={jobs} />
+      )}
     </section>
   );
 }

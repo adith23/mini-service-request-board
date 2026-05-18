@@ -6,13 +6,13 @@ interface KeywordSearchProps {
 export function KeywordSearch({ value, onChange }: KeywordSearchProps) {
   return (
     <label className="block">
-      <span className="text-sm font-medium text-slate-700">Search</span>
+      <span className="text-sm font-bold text-black">Search</span>
       <input
         type="search"
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder="Search title or description"
-        className="mt-1 h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+        className="mt-2 h-12 w-full rounded-none border-0 border-b-2 border-neutral-300 bg-white px-3 text-sm text-black outline-none transition placeholder:text-neutral-400 focus:rounded-md focus:border-2 focus:border-black"
       />
     </label>
   );

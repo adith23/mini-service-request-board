@@ -1,6 +1,6 @@
 export function ErrorMessage({ message }: { message: string }) {
   return (
-    <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+    <div className="rounded-md border border-neutral-300 bg-neutral-100 px-4 py-3 text-sm font-medium text-neutral-800">
       {message}
     </div>
   );

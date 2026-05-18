@@ -63,8 +63,10 @@ export function JobForm() {
 
   if (!isLoading && !user) {
     return (
-      <Card className="bg-slate-50 p-5">
-        <p className="text-sm text-slate-700">You must be logged in to create a request.</p>
+      <Card className="bg-neutral-50 p-5 shadow-none">
+        <p className="text-sm font-medium text-neutral-700">
+          You must be logged in to create a request.
+        </p>
         <Button className="mt-4" type="button" onClick={() => router.push("/login")}>
           Log in
         </Button>
@@ -73,27 +75,27 @@ export function JobForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-5">
+    <form onSubmit={handleSubmit} className="grid gap-6">
       {formError ? <ErrorMessage message={formError} /> : null}
       <Input
-        label="Title"
+        label="Title *"
         value={values.title}
         error={errors.title}
         onChange={(event) => updateValue("title", event.target.value)}
       />
       <label className="block">
-        <span className="text-sm font-medium text-slate-700">Description</span>
+        <span className="text-sm font-bold text-black">Description *</span>
         <textarea
           value={values.description}
           onChange={(event) => updateValue("description", event.target.value)}
           rows={6}
-          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+          className="mt-2 w-full rounded-none border-0 border-b-2 border-neutral-300 bg-white px-0 py-3 text-sm leading-6 text-black outline-none transition placeholder:text-neutral-400 focus:rounded-md focus:border-2 focus:border-black focus:px-3"
         />
         {errors.description ? (
-          <p className="mt-1 text-sm text-red-600">{errors.description}</p>
+          <p className="mt-2 text-sm text-neutral-600">{errors.description}</p>
         ) : null}
       </label>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <Select
           label="Category"
           value={values.category}
@@ -124,7 +126,7 @@ export function JobForm() {
           onChange={(event) => updateValue("contactEmail", event.target.value)}
         />
       </div>
-      <div className="flex justify-end gap-3">
+      <div className="grid gap-3 border-t border-neutral-200 pt-6 sm:grid-cols-[1fr_2fr]">
         <Button
           type="button"
           variant="secondary"
@@ -133,8 +135,8 @@ export function JobForm() {
         >
           Cancel
         </Button>
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Creating..." : "Create request"}
+        <Button type="submit" disabled={isSubmitting} className="w-full">
+          {isSubmitting ? "Submitting..." : "Submit Request"}
         </Button>
       </div>
     </form>

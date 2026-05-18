@@ -53,7 +53,7 @@ export function AuthForm() {
   }
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 shadow-none">
       <form onSubmit={handleSubmit} className="grid gap-5">
         {error ? <ErrorMessage message={error} /> : null}
         {mode === "register" ? (
@@ -75,11 +75,11 @@ export function AuthForm() {
           {isSubmitting ? "Please wait..." : mode === "login" ? "Log in" : "Create account"}
         </Button>
       </form>
-      <div className="mt-5 border-t border-slate-200 pt-5 text-sm text-slate-600">
+      <div className="mt-5 border-t border-neutral-200 pt-5 text-sm text-neutral-600">
         {mode === "login" ? "Need an account?" : "Already have an account?"}{" "}
         <button
           type="button"
-          className="font-medium text-slate-950 hover:text-slate-700"
+          className="font-bold text-black hover:text-neutral-600"
           onClick={() => {
             setError("");
             setMode(mode === "login" ? "register" : "login");

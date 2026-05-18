@@ -10,24 +10,29 @@ export function Header() {
   const { user, logout } = useAuth();
 
   return (
-    <header className="border-b border-slate-200 bg-white">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="text-base font-semibold text-slate-950">
-          Service Request Board
+    <header className="border-b border-neutral-200 bg-white">
+      <div className="mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between px-4 sm:px-6">
+        <Link
+          href="/"
+          className="text-3xl font-black tracking-tight text-black"
+        >
+          Servify
         </Link>
-        <nav className="flex items-center gap-3">
+        <nav className="flex items-center gap-2 sm:gap-3">
           {user ? (
             <>
-              <span className="hidden text-sm text-slate-600 sm:inline">{user.name}</span>
+              <span className="hidden max-w-40 truncate text-sm font-medium text-neutral-500 sm:inline">
+                {user.name}
+              </span>
               <Link
                 href="/jobs/new"
-                className="rounded-md bg-slate-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+                className="inline-flex h-10 items-center justify-center rounded-md bg-black px-4 text-sm font-semibold text-white transition hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
               >
-                New Request
+                Post New Request
               </Link>
               <button
                 type="button"
-                className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                className="inline-flex h-10 items-center justify-center rounded-md border border-neutral-300 bg-white px-3 text-sm font-semibold text-black transition hover:border-black hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                 onClick={() => {
                   logout();
                   router.push("/");
@@ -39,7 +44,7 @@ export function Header() {
           ) : (
             <Link
               href="/login"
-              className="rounded-md bg-slate-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-black px-4 text-sm font-semibold text-white transition hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
             >
               Log in
             </Link>

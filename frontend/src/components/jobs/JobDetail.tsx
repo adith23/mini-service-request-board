@@ -101,38 +101,48 @@ export function JobDetail({ id }: { id: string }) {
   }
 
   return (
-    <div className="grid gap-5">
+    <div className="grid gap-6">
       {error ? <ErrorMessage message={error} /> : null}
-      <Card className="p-6">
-        <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-start sm:justify-between">
+      <Card className="p-6 shadow-none sm:p-8">
+        <div className="flex flex-col gap-4 border-b border-neutral-200 pb-6 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-slate-950">{job.title}</h1>
-            <p className="mt-2 text-sm text-slate-500">
+            <h1 className="max-w-3xl text-4xl font-black leading-tight tracking-tight text-black">
+              {job.title}
+            </h1>
+            <p className="mt-4 text-sm font-medium text-neutral-500">
               Posted {new Date(job.createdAt).toLocaleString()}
             </p>
           </div>
           <Badge status={job.status} />
         </div>
-        <div className="grid gap-6 py-6 lg:grid-cols-[1fr_280px]">
+        <div className="grid gap-8 py-8 lg:grid-cols-[1fr_320px]">
           <div>
-            <h2 className="text-sm font-semibold text-slate-950">Description</h2>
-            <p className="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700">
+            <div className="mb-5 flex flex-wrap gap-x-5 gap-y-2 border-b border-neutral-200 pb-5 text-xs font-bold uppercase text-neutral-500">
+              {job.location ? <span>{job.location}</span> : null}
+              {job.category ? <span>{job.category}</span> : null}
+            </div>
+            <h2 className="text-sm font-black uppercase text-black">Description</h2>
+            <p className="mt-4 whitespace-pre-line text-base leading-8 text-neutral-700">
               {job.description}
             </p>
           </div>
-          <aside className="grid gap-4 rounded-lg bg-slate-50 p-4">
+          <aside className="grid content-start gap-5 rounded-lg bg-neutral-100 p-5">
             <StatusDropdown
               value={job.status}
+              label={`Status: ${job.status}`}
               disabled={isSaving}
               onChange={handleStatusChange}
             />
-            <DetailRow label="Category" value={job.category} />
-            <DetailRow label="Location" value={job.location} />
+            <div className="border-t border-neutral-300 pt-5">
+              <h2 className="text-sm font-black uppercase text-black">Contact Info</h2>
+            </div>
             <DetailRow label="Contact" value={job.contactName} />
             <DetailRow label="Email" value={job.contactEmail} />
+            <DetailRow label="Category" value={job.category} />
+            <DetailRow label="Location" value={job.location} />
           </aside>
         </div>
-        <div className="flex justify-end gap-3 border-t border-slate-200 pt-5">
+        <div className="flex flex-col gap-3 border-t border-neutral-200 pt-6 sm:flex-row sm:justify-end">
           <Button variant="secondary" onClick={() => router.push("/")}>
             Back
           </Button>
@@ -150,8 +160,8 @@ export function JobDetail({ id }: { id: string }) {
 function DetailRow({ label, value }: { label: string; value?: string }) {
   return (
     <div>
-      <dt className="text-xs font-medium uppercase text-slate-500">{label}</dt>
-      <dd className="mt-1 text-sm text-slate-900">{value || "Not provided"}</dd>
+      <dt className="text-xs font-bold uppercase text-neutral-500">{label}</dt>
+      <dd className="mt-1 text-sm font-semibold text-black">{value || "Not provided"}</dd>
     </div>
   );
 }

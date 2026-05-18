@@ -8,7 +8,7 @@ interface AppConfig {
   env: NodeEnv;
   isProduction: boolean;
   port: number;
-  corsOrigin: string;
+  corsOrigins: string[];
   mongoUri: string;
   jwtSecret: string;
   jwtExpiresIn: string;
@@ -44,8 +44,13 @@ function readNodeEnv(value: string | undefined): NodeEnv {
   return env;
 }
 
-function normalizeOrigin(value: string | undefined): string {
-  return (value?.trim() || "http://localhost:3000").replace(/\/+$/, "");
+function readCorsOrigins(value: string | undefined): string[] {
+  const origins = (value?.trim() || "http://localhost:3000")
+    .split(",")
+    .map((origin) => origin.trim().replace(/\/+$/, ""))
+    .filter(Boolean);
+
+  return origins.length > 0 ? origins : ["http://localhost:3000"];
 }
 
 const env = readNodeEnv(process.env.NODE_ENV);
@@ -54,7 +59,7 @@ export const config: AppConfig = {
   env,
   isProduction: env === "production",
   port: readPort(process.env.PORT),
-  corsOrigin: normalizeOrigin(process.env.CORS_ORIGIN),
+  corsOrigins: readCorsOrigins(process.env.CORS_ORIGIN),
   mongoUri: readRequiredEnv("MONGODB_URI"),
   jwtSecret: readRequiredEnv("JWT_SECRET"),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN?.trim() || "7d",
