@@ -1,6 +1,7 @@
 {
   "watch": ["src"],
-  "ext": "js,json",
+  "ext": "ts,json",
+  "exec": "tsx",
   "ignore": ["tests/", "node_modules/"],
   "delay": "500"
 }
