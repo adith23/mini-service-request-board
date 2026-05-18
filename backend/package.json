@@ -10,7 +10,7 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "seed": "node src/seeds/seed.js",
+    "seed": "tsx src/seeds/seed.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src/"

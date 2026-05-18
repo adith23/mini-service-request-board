@@ -44,13 +44,17 @@ function readNodeEnv(value: string | undefined): NodeEnv {
   return env;
 }
 
+function normalizeOrigin(value: string | undefined): string {
+  return (value?.trim() || "http://localhost:3000").replace(/\/+$/, "");
+}
+
 const env = readNodeEnv(process.env.NODE_ENV);
 
 export const config: AppConfig = {
   env,
   isProduction: env === "production",
   port: readPort(process.env.PORT),
-  corsOrigin: process.env.CORS_ORIGIN?.trim() || "http://localhost:3000",
+  corsOrigin: normalizeOrigin(process.env.CORS_ORIGIN),
   mongoUri: readRequiredEnv("MONGODB_URI"),
   jwtSecret: readRequiredEnv("JWT_SECRET"),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN?.trim() || "7d",
