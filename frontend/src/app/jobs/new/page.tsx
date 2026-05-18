@@ -5,7 +5,7 @@ export default function NewJobPage() {
   return (
     <section className="mx-auto max-w-3xl">
       <div className="mb-8 border-b border-neutral-200 pb-6">
-        <h1 className="text-4xl font-black tracking-tight text-black sm:text-5xl">
+        <h1 className="text-2xl font-black tracking-tight text-black sm:text-3xl">
           Post a Service Request
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-neutral-600">
