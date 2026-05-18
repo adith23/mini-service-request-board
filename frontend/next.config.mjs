@@ -2,11 +2,12 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = process.env.VERCEL ? dirname(__dirname) : __dirname;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   turbopack: {
-    root: __dirname,
+    root: workspaceRoot,
   },
   async rewrites() {
     if (process.env.NODE_ENV !== "development") {
