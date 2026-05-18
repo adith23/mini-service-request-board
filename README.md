@@ -1,120 +1,184 @@
 # Mini Service Request Board
 
-Full-stack assessment app with a Next.js frontend, Express backend, MongoDB Atlas, Mongoose, Tailwind CSS, keyword search, and JWT auth.
+A small full-stack service request board for the GlobalTNA technical assessment. Homeowners can post service requests, and tradespeople can browse jobs, view details, update status, and delete requests when authenticated.
 
-## Local Setup
+## Tech Stack
 
-Backend:
+- Frontend: Next.js App Router, React, Tailwind CSS
+- Backend: Node.js, Express, TypeScript
+- Database: MongoDB with Mongoose
+- Extras: JWT auth, keyword search, API tests, seed script
 
-```powershell
-cd backend
-npm install
-copy .env.example .env
-npm run dev
-```
+## Prerequisites
 
-Frontend:
-
-```powershell
-cd frontend
-npm install
-copy .env.local.example .env.local
-npm run dev
-```
-
-Local URLs:
-
-- Frontend: `http://localhost:3000`
-- Backend health: `http://localhost:5000/api/health`
+- Node.js 20 or newer
+- npm
+- MongoDB Atlas connection string or a local MongoDB instance
 
 ## Environment Variables
 
-Backend `backend/.env`:
+Create the backend environment file:
+
+```powershell
+cd backend
+copy .env.example .env
+```
+
+Required backend variables in `backend/.env`:
 
 ```env
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=<your-mongodb-atlas-uri>
+MONGODB_URI=<your-mongodb-uri>
 CORS_ORIGIN=http://localhost:3000
 JWT_SECRET=<long-random-secret>
 JWT_EXPIRES_IN=7d
 ```
 
-Frontend `frontend/.env.local`:
+`CORS_ORIGIN` supports multiple comma-separated origins, for example:
+
+```env
+CORS_ORIGIN=http://localhost:3000,https://your-frontend.vercel.app
+```
+
+Create the frontend environment file:
+
+```powershell
+cd frontend
+copy .env.local.example .env.local
+```
+
+Required frontend variable in `frontend/.env.local`:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
 ```
 
-## Deploy Backend to Railway
+## Setup
 
-1. Push the full repository to GitHub.
-2. In Railway, create a new project from the GitHub repository.
-3. Add a backend service and set the service root directory to:
-   ```text
-   /backend
-   ```
-4. Set Railway commands:
-   ```text
-   Build Command: npm install && npm run build
-   Start Command: npm start
-   ```
-5. Add Railway environment variables:
-   ```env
-   NODE_ENV=production
-   MONGODB_URI=<your-mongodb-atlas-uri>
-   JWT_SECRET=<long-random-secret>
-   JWT_EXPIRES_IN=7d
-   CORS_ORIGIN=https://<temporary-or-final-vercel-url>
-   ```
-6. Deploy the Railway service.
-7. Generate/copy the public Railway domain.
-8. Test:
-   ```text
-   GET https://<railway-backend-url>/api/health
-   ```
+Install backend dependencies:
 
-Expected response includes:
-
-```json
-{ "status": "ok" }
+```powershell
+cd backend
+npm install
 ```
 
-## Deploy Frontend to Vercel
+Install frontend dependencies:
 
-1. In Vercel, import the same GitHub repository.
-2. Configure the project:
-   ```text
-   Framework Preset: Next.js
-   Root Directory: frontend
-   Install Command: npm install
-   Build Command: npm run build
-   Output Directory: leave empty
-   ```
-   If the deployment log says `No framework detected`, Vercel is building the repository root instead of the Next.js app. Open **Project Settings -> General -> Root Directory**, set it to `frontend`, save, and redeploy.
-   If the deployment log says `The Next.js output directory "default" was not found`, open **Project Settings -> Build and Output Settings -> Output Directory** and clear the field completely. Do not type `default`; Vercel's default for Next.js is an empty output-directory setting.
-3. Add Vercel environment variable:
-   ```env
-   NEXT_PUBLIC_API_URL=https://<railway-backend-url>
-   ```
-4. Deploy the Vercel project.
-5. Copy the Vercel production domain.
-6. Return to Railway and update:
-   ```env
-   CORS_ORIGIN=https://<vercel-frontend-url>
-   ```
-7. Redeploy the Railway backend.
+```powershell
+cd frontend
+npm install
+```
 
-## Production Acceptance Checks
+## Run Locally
 
-- Vercel home page loads jobs from Railway.
-- Register/login works from `/login`.
-- Logged-in users can create and delete jobs.
-- Logged-out users cannot create or delete jobs.
-- Category filter and keyword search work.
-- Browser console has no CORS errors and no calls to `localhost`.
+Start the backend API:
 
-Share these final URLs:
+```powershell
+cd backend
+npm run dev
+```
 
-- Frontend: `https://<vercel-frontend-url>`
-- Backend: `https://<railway-backend-url>`
+The backend runs at:
+
+```text
+http://localhost:5000
+```
+
+Start the frontend app in a second terminal:
+
+```powershell
+cd frontend
+npm run dev
+```
+
+The frontend runs at:
+
+```text
+http://localhost:3000
+```
+
+Health check:
+
+```text
+GET http://localhost:5000/api/health
+```
+
+## Seed Sample Jobs
+
+After configuring `backend/.env`, insert sample job requests with:
+
+```powershell
+cd backend
+npm run seed
+```
+
+The seed script clears the existing `jobRequests` collection and inserts 8 sample service requests.
+
+## Available Scripts
+
+Backend:
+
+```powershell
+npm run dev      # start Express API with nodemon
+npm run build    # compile TypeScript
+npm start        # run compiled production server
+npm test         # run API tests
+npm run seed     # insert sample jobs
+```
+
+Frontend:
+
+```powershell
+npm run dev      # start Next.js dev server
+npm run build    # create production build
+npm start        # run production Next.js server
+npm run lint     # run ESLint
+```
+
+## API Summary
+
+- `GET /api/jobs` - list jobs, with optional `category`, `status`, and `search` query filters
+- `GET /api/jobs/:id` - get one job
+- `POST /api/jobs` - create a job request
+- `PATCH /api/jobs/:id` - update job status
+- `DELETE /api/jobs/:id` - delete a job request
+- `POST /api/auth/register` - create an account
+- `POST /api/auth/login` - log in
+- `GET /api/auth/me` - get current user
+
+## Testing
+
+Run backend tests:
+
+```powershell
+cd backend
+npm test
+```
+
+Build frontend:
+
+```powershell
+cd frontend
+npm run build
+```
+
+## Deployment Notes
+
+For production, set:
+
+Backend:
+
+```env
+NODE_ENV=production
+MONGODB_URI=<production-mongodb-uri>
+CORS_ORIGIN=https://<frontend-domain>
+JWT_SECRET=<secure-production-secret>
+JWT_EXPIRES_IN=7d
+```
+
+Frontend:
+
+```env
+NEXT_PUBLIC_API_URL=https://<backend-domain>
+```
