@@ -154,16 +154,12 @@ async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T
 function getApiBaseUrl() {
   const configuredUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
 
-  // Browser requests use the Next.js rewrite so the UI still talks to Express.
-  if (typeof window !== "undefined") {
-    return "/api";
+  if (configuredUrl) {
+    return configuredUrl.endsWith("/api") ? configuredUrl : `${configuredUrl}/api`;
   }
 
-  if (!configuredUrl) {
-    return "/api";
-  }
-
-  return configuredUrl.endsWith("/api") ? configuredUrl : `${configuredUrl}/api`;
+  // Local fallback: Next.js rewrites /api/* to the Express dev server.
+  return "/api";
 }
 
 function toQueryString(filters: JobFilters) {

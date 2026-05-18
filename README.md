@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Mini Service Request Board
 
-## Getting Started
+Full-stack assessment app with a Next.js frontend, Express backend, MongoDB Atlas, Mongoose, Tailwind CSS, keyword search, and JWT auth.
 
-First, run the development server:
+## Local Setup
 
-```bash
+Backend:
+
+```powershell
+cd backend
+npm install
+copy .env.example .env
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```powershell
+cd frontend
+npm install
+copy .env.local.example .env.local
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Local URLs:
 
-## Learn More
+- Frontend: `http://localhost:3000`
+- Backend health: `http://localhost:5000/api/health`
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Backend `backend/.env`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=<your-mongodb-atlas-uri>
+CORS_ORIGIN=http://localhost:3000
+JWT_SECRET=<long-random-secret>
+JWT_EXPIRES_IN=7d
+```
 
-## Deploy on Vercel
+Frontend `frontend/.env.local`:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy Backend to Railway
+
+1. Push the full repository to GitHub.
+2. In Railway, create a new project from the GitHub repository.
+3. Add a backend service and set the service root directory to:
+   ```text
+   /backend
+   ```
+4. Set Railway commands:
+   ```text
+   Build Command: npm install && npm run build
+   Start Command: npm start
+   ```
+5. Add Railway environment variables:
+   ```env
+   NODE_ENV=production
+   MONGODB_URI=<your-mongodb-atlas-uri>
+   JWT_SECRET=<long-random-secret>
+   JWT_EXPIRES_IN=7d
+   CORS_ORIGIN=https://<temporary-or-final-vercel-url>
+   ```
+6. Deploy the Railway service.
+7. Generate/copy the public Railway domain.
+8. Test:
+   ```text
+   GET https://<railway-backend-url>/api/health
+   ```
+
+Expected response includes:
+
+```json
+{ "status": "ok" }
+```
+
+## Deploy Frontend to Vercel
+
+1. In Vercel, import the same GitHub repository.
+2. Configure the project:
+   ```text
+   Framework Preset: Next.js
+   Root Directory: frontend
+   Install Command: npm install
+   Build Command: npm run build
+   Output Directory: default
+   ```
+3. Add Vercel environment variable:
+   ```env
+   NEXT_PUBLIC_API_URL=https://<railway-backend-url>
+   ```
+4. Deploy the Vercel project.
+5. Copy the Vercel production domain.
+6. Return to Railway and update:
+   ```env
+   CORS_ORIGIN=https://<vercel-frontend-url>
+   ```
+7. Redeploy the Railway backend.
+
+## Production Acceptance Checks
+
+- Vercel home page loads jobs from Railway.
+- Register/login works from `/login`.
+- Logged-in users can create and delete jobs.
+- Logged-out users cannot create or delete jobs.
+- Category filter and keyword search work.
+- Browser console has no CORS errors and no calls to `localhost`.
+
+Share these final URLs:
+
+- Frontend: `https://<vercel-frontend-url>`
+- Backend: `https://<railway-backend-url>`
