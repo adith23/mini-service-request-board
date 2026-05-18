@@ -91,6 +91,7 @@ Expected response includes:
    Build Command: npm run build
    Output Directory: default
    ```
+   If the deployment log says `No framework detected`, Vercel is building the repository root instead of the Next.js app. Open **Project Settings -> General -> Root Directory**, set it to `frontend`, save, and redeploy.
 3. Add Vercel environment variable:
    ```env
    NEXT_PUBLIC_API_URL=https://<railway-backend-url>
